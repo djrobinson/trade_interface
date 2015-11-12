@@ -1,0 +1,6 @@
+{
+    "db": "mongodb://localhost:27017/trade-dev",
+    "app": {
+        "name": "trade_interface - Trade API Integration - Development"
+    }
+}

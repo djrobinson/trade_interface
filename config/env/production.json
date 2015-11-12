@@ -1,0 +1,6 @@
+{
+    "db": "mongodb://localhost/mean",
+    "app": {
+        "name": "trade_interface - Trade API Integration"
+    }
+}
