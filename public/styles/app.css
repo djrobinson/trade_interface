@@ -1,3 +1,96 @@
+
+.container {
+  position: absolute;
+  border: solid;
+  border-style: solid;
+  border-color: aqua;
+  top: 50px;
+  bottom: 150px;
+  width: 100%;
+}
+
+.product {
+	height: 100%;
+	width: 10%;
+	border-style: solid;
+  	border-color: red;
+  	float: right;
+}
+
+.tape {
+	display: inline-block;
+	position: relative;
+	margin-left: -4px;
+	height: 70%;
+	width: 20%;
+	border-style: solid;
+  	border-color: purple;
+}
+
+.section {
+  /* position is static by default */
+  display: inline-block;
+  position: relative;
+  border-style: solid;
+  border-color: orange;
+  width: 80%;
+  height: 70%;
+}
+
+.indicator {
+	postition: relative;
+	border-style: solid;
+  	border-color: pink;
+	height: 29%;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 150px;
+  background-color: white;
+  width: 100%;
+  border-style: solid;
+  border-color: yellow;
+  text-align: center;
+}
+
+.header {
+	z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 50px;
+  background-color: white;
+  width: 100%;
+  border-style: solid;
+  border-color: blue;
+  text-align: center;
+}
+
+
+
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @charset "UTF-8";
 /** Main styles go here **/
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
@@ -864,8 +957,7 @@ pre code {
 .container {
   margin-right: auto;
   margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
+
 }
 /* line 20, ../../app/components/sass-bootstrap/lib/_mixins.scss */
 .container:before, .container:after {

@@ -62,7 +62,7 @@ module.exports = function(app, db) {
     app.use(session({
         secret: config.sessionSecret,
         store: new MongoStore({
-            url: 'mongodb://localhost:127.0.0.1:27017/trade-dev',
+            url: 'mongodb://localhost 	:27017/trade-dev',
             collection: config.sessionCollection
         })
     }));

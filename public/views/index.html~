@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+			<div class="header">
+				<h2>Trade Interface Example</h2>
+			</div>
+	<body>
+
+
+		<div class="container" ng-controller="amChartsController">
+
+   
+   		  <am-chart id="myFirstChart" options="amChartOptions"></am-chart> 
+			
+		</div>
+		<div class="container">
+		
+		</div>
+
+	</body>
+	<footer>
+
+	</footer>
+	
+	
+</html> 
