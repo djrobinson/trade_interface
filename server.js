@@ -14,7 +14,7 @@ var express = require('express'),
 
 // Initializing system variables
 var config = require('./config/config');
-var db     = mongoose.connect(config.db);
+// var db     = mongoose.connect(config.db);
 
 //Bootstrap models
 var models_path = __dirname + '/app/models';
@@ -36,7 +36,7 @@ walk(models_path);
 var app = express();
 
 //express settings
-require('./config/express')(app, db);
+// require('./config/express')(app, db);
 
 //Bootstrap routes
 require('./config/routes')(app);

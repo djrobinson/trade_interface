@@ -1,8 +1,35 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
 
-    body {
+a {
+  color: #00B7FF;
+}
+
+.chart {
+    background: #eee;
+    padding: 3px;
+}
+
+/*.chart div {
+  width: 0;
+  transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -webkit-transition: all 1s ease-out;
+}*/
+
+.chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 5px;
+  color: white;
+  box-shadow: 2px 2px 2px #666;
+}
+
+body {
         font: 10px sans-serif;
     }
 
@@ -40,10 +67,10 @@
         stroke: #000000;
     }
 
-/*    .ichimoku path.chikouspan {
+/*  .ichimoku path.chikouspan {
         stroke: #BF5FFF;
-    }
-*/
+    }*/
+
     .ichimoku path.tenkansen {
         stroke: #0033FF;
     }
@@ -71,14 +98,3 @@
     .ichimoku path.senkouspanb {
         stroke: #FF0000;
     }
-
-</style>
-<body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://techanjs.org/techan.min.js"></script>
-<script src="ichimoku.js"></script>
-<script>
-
-
-
-</script>
