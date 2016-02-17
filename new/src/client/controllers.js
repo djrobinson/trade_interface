@@ -6,14 +6,18 @@ var app = angular.module('myApp')
         $httpProvider.defaults.headers.common['Access-Control-Allow-Origin','*'];
         }
     ]);
-  app.controller('ohlcCtrl', function($scope, $http){
 
+
+  app.controller('ohlcCtrl', function($scope, $http){
   $http({
     method: "GET",
     type: "JSONP",
-    url: "https://api.kraken.com/0/public/OHLC?pair=ETHXBT&interval=5&since=1455514800"
+    url: "/OHLC"
     }).success(function(data){
       console.log(data);
-      $scope.ohlc = data;
+      $scope.ohlc = data.result.XETHXXBT;
     })
 });
+
+  //Use the above http request to call backend.  The backend route should res.json the data
+  //from teh api call

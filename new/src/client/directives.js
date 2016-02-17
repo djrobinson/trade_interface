@@ -4,8 +4,9 @@ angular.module('myApp')
   return {
     restrict : 'E',
     template: '<div id="chart"></div>',
+    controller: 'ohlcCtrl',
     scope : {
-      data : '='
+      data : '@mainData'
     },
     link : function(scope, element, attr) {
     console.log("SOMETHING IS RUNNING!!!");
@@ -52,8 +53,8 @@ angular.module('myApp')
             .attr("width", width)
             .attr("height", y(0) - y(1));
 
-    // d3.xhr("https://api.kraken.com/0/public/OHLC?pair=ETHXBT&interval=5&since=1455514800", function(error, data) {
-    d3.csv("data.csv", function(error,data){
+    d3.json("/OHLC", function(error, data) {
+        console.log(data);
         var accessor = candlestick.accessor(),
             ichimokuIndicator = techan.indicator.ichimoku(),
             indicatorPreRoll = ichimokuIndicator.kijunSen()+ichimokuIndicator.senkouSpanB();  // Don't show where indicators don't have data
@@ -73,19 +74,22 @@ angular.module('myApp')
         //         low: +d[3],
         //         close: +d[4]
         //     };
-        data = data.map(function(d) {
-            // Open, high, low, close generally not required, is being used here to demonstrate colored volume
-            // bars
-            return {
-                date: parseDate(d.Date),
-                volume: +d.Volume,
-                open: +d.Open,
-                high: +d.High,
-                low: +d.Low,
-                close: +d.Close
-            };
-        }).sort(function(a, b) { return d3.ascending(accessor.d(a), accessor.d(b)); });
+        data = data.result.XETHXXBT.map(function(d) {
 
+
+            var a = new Date(d[0]*1000);
+            return {
+                date: a,
+                volume: parseFloat(d[6]),
+                open: parseFloat(d[1]),
+                high: parseFloat(d[2]),
+                low: parseFloat(d[3]),
+                close: parseFloat(d[4])
+            };
+            //<time>, <open>, <high>, <low>, <close>, <vwap>, <volume>, <count>
+        }).sort(function(a, b) {
+            return d3.ascending(accessor.d(a), accessor.d(b)); });
+        console.log(data);
         var ichimokuData = ichimokuIndicator(data);
         x.domain(data.map(accessor.d));
         // Calculate the y domain for visible data points (ensure to include Kijun Sen additional data offset)
@@ -121,7 +125,7 @@ angular.module('myApp')
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
                 .text("Ichimoku");
-    });
+        });
     }
   }
 });
