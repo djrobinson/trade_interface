@@ -5,14 +5,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('./config/mongoose');
 
-
+var db = mongoose();
 // *** routes *** //
 var routes = require('./routes/index.js');
 
-
 // *** express instance *** //
 var app = express();
+
+//TODO CREATE THE DB CONNECTION INFO
 
 
 // *** config middleware *** //

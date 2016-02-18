@@ -4,6 +4,7 @@ var ohlc = require('./services');
 var https = require('https');
 
 
+
 router.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '../../client', 'index.html'));
 });
@@ -17,6 +18,7 @@ router.get('/ohlc', function(req, res) {
     });
     response.on('end', function(){
       var parsed = JSON.parse(body);
+      // ohlc.batch(parsed);
       res.json(parsed);
     })
   }).on('error', (e) => {
@@ -24,6 +26,10 @@ router.get('/ohlc', function(req, res) {
   });
 });
 
-// router.get('/ohlc', function(req, res)
+router.post('/tick', ohlc.create);
+
+router.get('/tick', ohlc.get);
+
+//TODO create the route that will call the mongoose connection
 
 module.exports = router;
