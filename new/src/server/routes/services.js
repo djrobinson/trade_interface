@@ -22,14 +22,3 @@ exports.get = function(req, res, next) {
   });
 }
 
-// exports.batch = function(req, res, data){
-//   var tick = new Tick(req);
-//   tick.save(function(err) {
-//     if(err) {
-//       return next(err);
-//     } else {
-//       res.json(tick);
-//     }
-//   })
-// }
-
