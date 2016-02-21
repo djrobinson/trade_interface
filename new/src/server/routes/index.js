@@ -29,6 +29,8 @@ router.get('/ohlc', (req, res) => {
   });
 });
 
+
+//Need to add set interval
 router.post('/tick', tick.create);
 
 router.get('/tick', tick.get);
@@ -46,6 +48,7 @@ function addTicks(){
         headers: {
           'content-type': 'application/json'
         },
+        //Cahnge this to the proper model for Ticks
         body: { test: 'bliggity blah'},
         json: true
       }
