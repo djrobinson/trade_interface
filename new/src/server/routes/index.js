@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var tick = require('./services');
+var tick = require('./tickService');
+var last = require('./lastService');
 var https = require('https');
 var http = require('http');
 var request = require('request');
@@ -21,7 +22,7 @@ router.get('/ohlc', (req, res) => {
     });
     response.on('end', () => {
       var parsed = JSON.parse(body);
-      addTicks();
+      // addTicks();
       res.json(parsed);
     })
   }).on('error', (e) => {
@@ -35,28 +36,63 @@ router.post('/tick', tick.create);
 
 router.get('/tick', tick.get);
 
+router.post('/last', last.create);
+
+router.get('/last', last.get);
+var lastTick;
+
+setInterval(addTicks, 5000);
+
 function addTicks(){
-  http.get('http://localhost:5000/ohlc', (response) => {
+  https.get('https://api.kraken.com/0/public/Trades?pair=ETHXBT&since='+lastTick , (response) => {
     var body = '';
     console.log('internal status code: ', response.statusCode);
     response.on('data', (d) => {
-      body += d;
+       body += d;
     }).on('end', () => {
-      var options = {
-        method: 'POST',
-        url: 'http://localhost:5000/tick',
-        headers: {
-          'content-type': 'application/json'
-        },
-        //Cahnge this to the proper model for Ticks
-        body: { test: 'bliggity blah'},
-        json: true
-      }
-      request.post(options, (err, response, body) => {
-        console.log("Checkaroo", body);
-      })
       var parsed = JSON.parse(body);
-      console.log(parsed);
+      parsed.result.XETHXXBT.forEach(function(tick){
+          var options = {
+          method: 'POST',
+          url: 'http://localhost:5000/tick',
+          headers: {
+            'content-type': 'application/json'
+          },
+          //Cahnge this to the proper model for Ticks
+          body: {
+            price: tick[0],
+            volume: tick[1],
+            time: tick[2],
+            buysell: tick[3],
+            marketlimit: tick[4],
+            misc: tick[5]
+          },
+          json: true
+        }
+        lastTick = parsed.result.last;
+        request.post(options, (err, response, body) => {
+          console.log(lastTick);
+        })
+        var lastOptions = {
+          method: 'POST',
+          url: 'http://localhost:5000/last',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: {
+            last: lastTick
+          },
+          json: true
+        }
+        request.post(lastOptions, (err, response, body) =>{
+          if (err) {
+            console.error(err);
+          } else {
+            console.log("Tick added")
+          }
+        })
+      })
+
     })
   });
 }

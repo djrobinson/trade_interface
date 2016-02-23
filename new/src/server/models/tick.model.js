@@ -2,12 +2,12 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var TickSchema = new Schema({
-  Date: number,
-  Open: number,
-  High: number,
-  Low: number,
-  Close: number,
-  Volume: number
+  price: Number,
+  volume: Number,
+  time: Number,
+  buysell: String,
+  marketlimit: String,
+  misc: Number
 });
 
 mongoose.model('Tick', TickSchema);
