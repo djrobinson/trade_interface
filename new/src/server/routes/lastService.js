@@ -2,7 +2,7 @@ var Last = require('mongoose').model('Last');
 
 exports.create = function(req, res, next) {
   var last = new Last(req.body);
-  console.log("Posted is", last);
+  console.log("Posted to last is", last);
   last.save(function(err){
     if(err) {
       return next(err);

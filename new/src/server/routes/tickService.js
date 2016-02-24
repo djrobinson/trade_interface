@@ -2,7 +2,7 @@ var Tick = require('mongoose').model('Tick');
 
 exports.create = function(req, res, next) {
   var tick = new Tick(req.body);
-  console.log(req.body);
+  console.log("new tick additions: ", req.body);
   tick.save(function(err){
     if(err) {
       return next(err);
