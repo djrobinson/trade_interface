@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 var TickSchema = new Schema({
   price: Number,
   volume: Number,
-  time: Number,
+  time: Date,
   buysell: String,
   marketlimit: String,
   misc: Number

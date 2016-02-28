@@ -45,7 +45,7 @@ router.get('/last', last.get);
 router.get('/ohlc', ohlc.get);
 
 
-// setInterval(addTicks, 10000);
+setInterval(addTicks, 10000);
 
 function addTicks(){
   http.get('http://localhost:5000/last', (response) => {
@@ -62,9 +62,7 @@ function addTicks(){
             var parsed = JSON.parse(body);
             var resultArr = parsed.result.XETHXXBT;
             var lastTick = parsed.result.last;
-            console.log("Last in arr is ", lastTick);
             if (resultArr.length > 0){
-              console.log("Where does it go wrong?", lastTick);
               resultArr.forEach(function(tick){
                   var options = {
                   method: 'POST',
@@ -99,7 +97,6 @@ function addTicks(){
                 json: true
               }
               request.post(lastOptions, (err, response, body) =>{
-                console.log("Posted Value is: ",body.last)
                 if (err) {
                   console.error(err);
                 }
