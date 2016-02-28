@@ -46,8 +46,12 @@ function addTicks(){
             var parsed = JSON.parse(body);
             var resultArr = parsed.result.XETHXXBT;
             var lastTick = parsed.result.last;
+
             if (resultArr.length > 0){
               resultArr.forEach(function(tick){
+                var d = new Date(0);
+                var formDate = d.setUTCSeconds(tick[2]);
+                var passDate = new Date(formDate);
                   var options = {
                   method: 'POST',
                   url: 'http://localhost:5000/tick',
@@ -58,7 +62,7 @@ function addTicks(){
                   body: {
                     price: tick[0],
                     volume: tick[1],
-                    time: new Date(tick[2]),
+                    time: passDate,
                     buysell: tick[3],
                     marketlimit: tick[4],
                     misc: tick[5]

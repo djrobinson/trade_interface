@@ -6,8 +6,8 @@ exports.get = function(req, res, next){
   Tick.aggregate([
     { $match:
       { time: {
-        $lt: new Date("1970-01-17T20:37:04.716Z"),
-        $gte: new Date("1970-01-17T20:36:56.402Z")
+        $lt: new Date("2016-02-28T21:39:57.000Z"),
+        $gte: new Date("2016-02-28T19:18:51.000Z")
     }}},
     { $project: {
         minute: {$minute: "$time"},
