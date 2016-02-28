@@ -3,28 +3,26 @@ var Tick = require('mongoose').model('Tick');
 
 //TODO: Transfer the following
 exports.get = function(req, res, next){
-  console.log("This might work?");
   Tick.aggregate([
     { $match:
       { time: {
-        $lt: 1456263063.6729,
-        $gte: 1456261178.6822
+        $lt: new Date("1970-01-17T20:37:04.716Z"),
+        $gte: new Date("1970-01-17T20:36:56.402Z")
     }}},
     { $project: {
         minute: {$minute: "$time"},
         time: 1,
-        volume: 1
-    }}
-    // {$sort: {date: 1}},
-    // {$group:
-      // {_id: { minute: $minute },
-      //   date:  { $first: $time},
-      //   "date":  {"$first": "$date"},
-      //               "open":  {"$first": "$price"},
-      //               "high":  {"$max": "$price"},
-      //               "low":   {"$min": "$price"},
-      //               "close": {"$last": "$price"},
-      //               "volume": {"$volume": "$volume"} }},
+        volume: 1,
+        price: 1
+    }},
+    {$sort: {time: 1}},
+    {$group:
+      {_id: { minute: "$minute"},
+                    time:  {$first: "$time"},
+                    open:  {$first: "$price"},
+                    high:  {$max: "$price"},
+                    low:   {$min: "$price"},
+                    close: {$last: "$price"}}}
       ],
   function(err, ohlc){
     if(err) {

@@ -15,22 +15,6 @@ router.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../client', 'index.html'));
 });
 
-// router.get('/ohlc', (req, res) => {
-//   var body = '';
-//   https.get('https://api.kraken.com/0/public/OHLC?pair=ETHXBT', (response) => {
-//     response.on('data', (d) => {
-//       body += d;
-//     });
-//     response.on('end', () => {
-//       var parsed = JSON.parse(body);
-//       // addTicks();
-//       res.json(parsed);
-//     })
-//   }).on('error', (e) => {
-//     console.log(e);
-//   });
-// });
-
 
 //Need to add set interval
 
@@ -74,7 +58,7 @@ function addTicks(){
                   body: {
                     price: tick[0],
                     volume: tick[1],
-                    time: tick[2],
+                    time: new Date(tick[2]),
                     buysell: tick[3],
                     marketlimit: tick[4],
                     misc: tick[5]
