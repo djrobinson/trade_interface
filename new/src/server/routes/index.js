@@ -32,12 +32,16 @@ router.get('/ohlc', ohlc.get);
 setInterval(addTicks, 10000);
 
 function addTicks(){
+
+//////////////// FIRST GET ////////////////////////
   http.get('http://localhost:5000/last', (response) => {
     var last = '';
     response.on('data', (data) => {
       last += JSON.parse(data).last;
       console.log('Last tick to be used in request is ', last);
       }).on('end', () =>{
+
+//////////////// SECOND GET ////////////////////////
         https.get('https://api.kraken.com/0/public/Trades?pair=ETHXBT&since='+last , (response) => {
           var body = '';
           response.on('data', (d) => {
@@ -48,6 +52,9 @@ function addTicks(){
             var lastTick = parsed.result.last;
 
             if (resultArr.length > 0){
+
+
+//////////////// THIRD BREAKPOINT ////////////////////////
               resultArr.forEach(function(tick){
                 var d = new Date(0);
                 var formDate = d.setUTCSeconds(tick[2]);
@@ -70,6 +77,8 @@ function addTicks(){
                   json: true
                 }
 
+
+//////////////// FOURTH BREAKPOINT ////////////////////////
                 request.post(options, (err, response, body) => {
                 })
               });
@@ -84,6 +93,8 @@ function addTicks(){
                 },
                 json: true
               }
+
+//////////////// FIFTH BREAKPOINT ////////////////////////
               request.post(lastOptions, (err, response, body) =>{
                 if (err) {
                   console.error(err);
@@ -95,6 +106,9 @@ function addTicks(){
       });
     });
 }
+
+
+
 
 //TODO create the route that will call the mongoose connection
 
