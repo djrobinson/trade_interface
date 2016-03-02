@@ -8,17 +8,19 @@ exports.get = function(req, res, next){
       { time: {
         //2016-02-29T13:24:50.000Z
         //2016-03-01T14:51:20.000Z
-        $lt: new Date("2016-03-01T14:51:20.000Z"),
+        //2016-03-01T16:56:09.000Z
+        $lt: new Date("2016-03-01T16:56:09.000Z"),
         $gte: new Date("2016-02-29T13:24:50.000Z")
     }}},
     { $project: {
         minute: {$minute: "$time"},
+        hour: {$hour: "$time"},
         time: "$time",
         volume: 1,
         price: 1
     }},
     {$group:
-      {_id: { minute: "$minute"},
+      {_id: { minute: "$minute", hour: "$hour"},
                     time:  {$first: "$time"},
                     open:  {$first: "$price"},
                     high:  {$max: "$price"},
