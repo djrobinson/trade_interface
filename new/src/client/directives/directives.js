@@ -11,16 +11,15 @@ angular.module('myApp')
     link : function(scope, element, attr) {
     var margin = {top: 20, right: 20, bottom: 30, left: 50},
             width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+            height = 1500 - margin.top - margin.bottom;
 
-    var parseDate = d3.time.format("%d-%b-%y").parse;
+    // var parseDate = d3.time.parse;
 
     var x = techan.scale.financetime()
             .range([0, width]);
 
     var y = d3.scale.linear()
             .range([height, 0]);
-
     var candlestick = techan.plot.candlestick()
             .xScale(x)
             .yScale(y);
@@ -36,7 +35,7 @@ angular.module('myApp')
     var yAxis = d3.svg.axis()
             .scale(y)
             .orient("left")
-            .tickFormat(d3.format(",.3s"));
+            // .tickFormat(d3.format(",10000"));
 
     var svg = d3.select("#chart").append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -52,51 +51,34 @@ angular.module('myApp')
             .attr("width", width)
             .attr("height", y(0) - y(1));
 
-    d3.json("/OHLC", function(error, data) {
+    d3.json("/ohlc", function(error, data) {
         console.log(data);
         var accessor = candlestick.accessor(),
             ichimokuIndicator = techan.indicator.ichimoku(),
-            indicatorPreRoll = ichimokuIndicator.kijunSen()+ichimokuIndicator.senkouSpanB();  // Don't show where indicators don't have data
-        // var workable = JSON.parse(data.response);
-        // console.log(workable);
-        // data = workable.result.XETHXXBT.map(function(d) {
-        //     // Open, high, low, close generally not required, is being used here to demonstrate colored volume
-        //     // bars
-        //     var a = new Date(d[0]*1000);
+            indicatorPreRoll = ichimokuIndicator.kijunSen()+ichimokuIndicator.senkouSpanB();
 
-        //     console.log(a);
-        //     return {
-        //         date: a,
-        //         volume: +d[6],
-        //         open: +d[1],
-        //         high: +d[2],
-        //         low: +d[3],
-        //         close: +d[4]
-        //     };
-        data = data.result.XETHXXBT.map(function(d) {
-
-
-            var a = new Date(d[0]*1000);
+        data = data.map(function(d) {
+            var a = new Date(d['time'])
             return {
                 date: a,
-                volume: parseFloat(d[6]),
-                open: parseFloat(d[1]),
-                high: parseFloat(d[2]),
-                low: parseFloat(d[3]),
-                close: parseFloat(d[4])
+                volume: parseFloat(d['volume']),
+                open: parseFloat(d['open']),
+                high: parseFloat(d['high']),
+                low: parseFloat(d['low']),
+                close: parseFloat(d['close'])
             };
-            //<time>, <open>, <high>, <low>, <close>, <vwap>, <volume>, <count>
         }).sort(function(a, b) {
             return d3.ascending(accessor.d(a), accessor.d(b)); });
         console.log(data);
         var ichimokuData = ichimokuIndicator(data);
         x.domain(data.map(accessor.d));
-        // Calculate the y domain for visible data points (ensure to include Kijun Sen additional data offset)
-        y.domain(techan.scale.plot.ichimoku(ichimokuData.slice(indicatorPreRoll-ichimokuIndicator.kijunSen())).domain());
-
+        // // Calculate the y domain for visible data points (ensure to include Kijun Sen additional data offset)
+        //Original
+        // y.domain(techan.scale.plot.ichimoku(ichimokuData.slice(indicatorPreRoll-ichimokuIndicator.kijunSen())).domain());
+        y.domain(techan.scale.plot.ichimoku(ichimokuData).domain());
         // loggic to ensure that at least +KijunSen displacement is applied to display cloud plotted ahead of ohlc
-        var zoomable = x.zoomable().clamp(true);
-        zoomable.domain([indicatorPreRoll, data.length+ichimokuIndicator.kijunSen()]);
+        // var zoomable = x.zoomable().clamp(true);
+        // zoomable.domain([indicatorPreRoll, data.length+ichimokuIndicator.kijunSen()]);
 
         svg.append("g")
                 .datum(ichimokuData)
@@ -122,31 +104,9 @@ angular.module('myApp')
                 .attr("transform", "rotate(-90)")
                 .attr("y", 6)
                 .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("Ichimoku");
+                .style("text-anchor", "end");
         });
     }
   }
 });
 
-
-// angular.module('myApp', []).
-
-//    directive('bars', function ($parse) {
-//       return {
-//          restrict: 'E',
-//          replace: true,
-//          template: '<div id="chart"></div>',
-//          link: function (scope, element, attrs) {
-//            var data = attrs.data.split(','),
-//            chart = d3.select('#chart')
-//              .append("div").attr("class", "chart")
-//              .selectAll('div')
-//              .data(data).enter()
-//              .append("div")
-//              .transition().ease("elastic")
-//              .style("width", function(d) { return d + "%"; })
-//              .text(function(d) { return d + "%"; });
-//          }
-//       };
-//    });

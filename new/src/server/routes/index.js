@@ -29,7 +29,7 @@ router.get('/last', last.get);
 router.get('/ohlc', ohlc.get);
 
 
-setInterval(addTicks, 10000);
+// setInterval(addTicks, 10000);
 
 function addTicks(){
 

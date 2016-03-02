@@ -2,7 +2,7 @@
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
-    var parseDate = d3.time.format("%d-%b-%y").parse;
+    var parseDate = d3.time.format("%H,%M,%S").parse;
 
     var x = techan.scale.financetime()
             .range([0, width]);

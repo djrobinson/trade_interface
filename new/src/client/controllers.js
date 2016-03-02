@@ -11,13 +11,12 @@ var app = angular.module('myApp')
   app.controller('ohlcCtrl', function($scope, $http){
   $http({
     method: "GET",
-    type: "JSONP",
-    url: "/OHLC"
+    type: "JSON",
+    url: "/ohlc"
     }).success(function(data){
-      console.log(data);
-      $scope.ohlc = data.result.XETHXXBT;
+      $scope.ohlc = data;
     })
 });
 
   //Use the above http request to call backend.  The backend route should res.json the data
-  //from teh api call
+  //from teh api ca
