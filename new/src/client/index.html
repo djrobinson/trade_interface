@@ -10,18 +10,16 @@
 
 </head>
   <body ng-app="myApp">
-
+      Min: <input type="date" name="minDate" placeholder="Min Date" ng-model="minDate">
+      Max: <input type="date" name="maxDate" placeholder="Max Date" ng-model="maxDate">
+      <button ng-click="buildGraph()">Build Graph</button>
     <div>
         <techan-ohlc></techan-ohlc>
     </div>
 
-    <div ng-controller="ohlcCtrl"  mainData="{{ ohlc }} ">
+<!--     <div ng-controller="ohlcCtrl"  mainData="{{ ohlc }} ">
       <p>{{ ohlc }}</p>
-    </div>
-
-<!--   <div class="container">
-    <div ng-view></div>
-  </div> -->
+    </div> -->
 
   <!-- scripts -->
   <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>

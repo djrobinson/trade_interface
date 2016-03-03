@@ -28,6 +28,9 @@ router.get('/last', last.get);
 
 router.get('/ohlc', ohlc.get);
 
+router.get('/ohlc/:minDate/:maxDate', ohlc.get);
+
+
 
 // setInterval(addTicks, 10000);
 

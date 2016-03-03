@@ -1,26 +1,33 @@
 var Tick = require('mongoose').model('Tick');
 
+var end = new Date();
+var startDate = end.setDate(end.getDate() - 1);
+var endDate = end.setDate(end.getDate());
+
 
 //TODO: Transfer the following
 exports.get = function(req, res, next){
+  console.log("req params",req.params);
+  var minDate = req.params.minDate;
+  var maxDate = req.params.maxDate;
   Tick.aggregate([
     { $match:
       { time: {
-        //2016-02-29T13:24:50.000Z
-        //2016-03-01T14:51:20.000Z
-        //2016-03-01T16:56:09.000Z
-        $lt: new Date("2016-03-01T16:56:09.000Z"),
-        $gte: new Date("2016-02-29T13:24:50.000Z")
+        $lt: new Date(maxDate),
+        $gte: new Date(minDate)
+        // $lt: endDate,
+        // $gte: startDate
     }}},
     { $project: {
         minute: {$minute: "$time"},
         hour: {$hour: "$time"},
+        day: {$dayOfMonth: "$time"},
         time: "$time",
         volume: 1,
         price: 1
     }},
     {$group:
-      {_id: { minute: "$minute", hour: "$hour"},
+      {_id: { day: "$day", hour: "$hour", minute: "$minute" },
                     time:  {$first: "$time"},
                     open:  {$first: "$price"},
                     high:  {$max: "$price"},
