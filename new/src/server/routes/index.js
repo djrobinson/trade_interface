@@ -16,8 +16,6 @@ router.get('/', (req, res) => {
 });
 
 
-//Need to add set interval
-
 router.post('/tick', tick.create);
 
 router.get('/tick', tick.get);
@@ -32,7 +30,7 @@ router.get('/ohlc/:minDate/:maxDate', ohlc.get);
 
 
 
-// setInterval(addTicks, 10000);
+setInterval(addTicks, 10000);
 
 function addTicks(){
 
@@ -82,7 +80,7 @@ function addTicks(){
 
 
 //////////////// FOURTH BREAKPOINT ////////////////////////
-                request.post(options, (err, response, body) => {
+              request.post(options, (err, response, body) => {
                 })
               });
               var lastOptions = {

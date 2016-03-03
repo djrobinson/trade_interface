@@ -6,10 +6,22 @@
   <title>MEAN Boilerplate</title>
   <!-- styles -->
   <link href="public/css/main.css" rel="stylesheet">
-  <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/yeti/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
   <body ng-app="myApp">
+  <div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
+            <li><a>Graph</a></li>
+            <li><a>Ticks</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
       Min: <input type="date" name="minDate" placeholder="Min Date" ng-model="minDate">
       Max: <input type="date" name="maxDate" placeholder="Max Date" ng-model="maxDate">
       <button ng-click="buildGraph()">Build Graph</button>
