@@ -4,17 +4,45 @@ var router = express.Router();
 var https = require('https');
 var http = require('http');
 var request = require('request');
+var path = require('path');
+var passport = require('passport');
 
 var ohlc = require('./ohlcService');
 var tick = require('./tickService');
 var last = require('./lastService');
 
+var app = express();
+var flash=require("connect-flash");
+app.use(flash());
 
 
-router.get('/', (req, res) => {
+//Signup form
+router.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, '../../client', 'index.html'));
 });
 
+router.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../client', 'login.html'));
+});
+
+router.post('/signup', passport.authenticate('local-signup', {
+      successRedirect : '/profile', // redirect to the secure profile section
+      failureRedirect : '/signup', // redirect back to the signup page if there is an error
+      failureFlash : true // allow flash messages
+  }));
+
+router.post('/login', passport.authenticate('local-login', {
+    successRedirect : '/profile', // redirect to the secure profile section
+    failureRedirect : '/login', // redirect back to the signup page if there is an error
+    failureFlash : true // allow flash messages
+}));
+
+  // //Logout
+
+  // router.get('/logout', function(req, res) {
+  //   req.logout();
+  //   res.redirect('/');
+  // });
 
 router.post('/tick', tick.create);
 
@@ -30,7 +58,7 @@ router.get('/ohlc/:minDate/:maxDate', ohlc.get);
 
 
 
-setInterval(addTicks, 10000);
+// setInterval(addTicks, 10000);
 
 function addTicks(){
 
@@ -107,10 +135,5 @@ function addTicks(){
       });
     });
 }
-
-
-
-
-//TODO create the route that will call the mongoose connection
 
 module.exports = router;

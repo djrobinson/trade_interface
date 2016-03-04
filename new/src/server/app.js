@@ -6,6 +6,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('./config/mongoose');
+var session = require('express-session');
+var passport = require('passport');
+var flash = require('connect-flash');
+
+
+require('./config/passport')(passport);
 
 var db = mongoose();
 // *** routes *** //
@@ -28,6 +34,13 @@ app.use(express.static(path.join(__dirname, '../client')));
 // *** main routes *** //
 app.use('/', routes);
 
+//passport config
+app.use(session({ secret: 'secret' }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -36,15 +49,14 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-
 // *** error handlers *** //
 
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.send('error', {
+    res.status(err.status || 500)
+      .json({
       message: err.message,
       error: err
     });
