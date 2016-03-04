@@ -22,7 +22,6 @@ var app = express();
 
 //TODO CREATE THE DB CONNECTION INFO
 
-
 // *** config middleware *** //
 app.use(logger('dev'));
 app.use(bodyParser.json());

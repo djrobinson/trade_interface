@@ -10,18 +10,18 @@
 
 </head>
   <body ng-app="myApp">
-  <div class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <div class="navbar-collapse collapse" id="navbar-main">
-          <ul class="nav navbar-nav">
-            <li><a>Graph</a></li>
-            <li><a>Ticks</a></li>
-          </ul>
+    <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+              <li><a>Graph</a></li>
+              <li><a>Ticks</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
       Min: <input type="date" name="minDate" placeholder="Min Date" ng-model="minDate">
       Max: <input type="date" name="maxDate" placeholder="Max Date" ng-model="maxDate">
       <button ng-click="buildGraph()">Build Graph</button>

@@ -13,7 +13,7 @@ exports.create = function(req, res, next) {
 }
 
 exports.get = function(req, res, next) {
-  Tick.find({}, function(err, ticks){
+  Tick.find().limit(100).exec(function(err, ticks){
     if (err) {
       return next(err);
     } else {

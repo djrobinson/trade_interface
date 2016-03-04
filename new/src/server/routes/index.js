@@ -15,6 +15,9 @@ var app = express();
 var flash=require("connect-flash");
 app.use(flash());
 
+var getTicks = require('../indicators/sma');
+
+getTicks();
 
 //Signup form
 router.get('/', (req, res, next) => {
@@ -88,7 +91,7 @@ function addTicks(){
                 var d = new Date(0);
                 var formDate = d.setUTCSeconds(tick[2]);
                 var passDate = new Date(formDate);
-                  var options = {
+                var options = {
                   method: 'POST',
                   url: 'http://localhost:5000/tick',
                   headers: {

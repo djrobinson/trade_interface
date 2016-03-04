@@ -7,7 +7,6 @@ var endDate = end.setDate(end.getDate());
 
 //TODO: Transfer the following
 exports.get = function(req, res, next){
-  console.log("req params",req.params);
   var minDate = req.params.minDate;
   var maxDate = req.params.maxDate;
   Tick.aggregate([
