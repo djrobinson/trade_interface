@@ -20,4 +20,6 @@ var totalTicks = function(ticks){
   console.log("average is", total/(ticks.length+1));
 };
 
+
+
 module.exports = getTicks;
