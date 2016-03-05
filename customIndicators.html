@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Custom Indicator Graph</title>
+</head>
+<body>
+  <h1>Testing for Custom Indicators</h1>
+
+  <script>
+    var width = 900;
+    var height = 500;
+
+    var end = new Date();
+    var start = new Date(end.getTime() - 1000 * 60 * 60 * 24 * 60);
+    var data = [];
+
+    function min(a, b){ return a < b ? a : b ; }
+
+    function max(a, b){ return a > b ? a : b; }
+
+    var y = d3.scale.linear()
+          .domain([d3.min(data.map(function(x) {return x["Low"];})), d3.max(data.map(function(x){return x["High"];}))])
+          .range([height-margin, margin]);
+        var x = d3.scale.linear()
+          .domain([d3.min(data.map(function(d){return d.timestamp;})), d3.max(data.map(function(d){ return d.timestamp;}))])
+          .range([margin,width-margin]);
+
+    //What data type should be pulled in?
+    //How will I form it into an array tha can be used by each line type below?
+
+
+    //Function for Line
+
+
+    //Function for OHLC
+
+    //Function for Y-Axis plots (mkt profile)
+
+    //Function for pivots
+  </script>
+
+</body>
+</html>
