@@ -50,14 +50,6 @@
 
       function buildChart(data){
 
-        // var xAxis = d3.svg.axis().scale(x)
-        //     .orient("bottom").ticks(5);
-
-        // var yAxis = d3.svg.axis().scale(y)
-        //     .orient("left").ticks(5);
-
-        // var valueline = d3.svg.line()
-
         var margin = 50;
 
         //This selects the chart id
@@ -105,8 +97,8 @@
           // Scale the range of the data
           //This is what is causing the bar vs line to render
           //TODO investigate why this is occurring
-            // x.domain(d3.extent(data, function(d) { return d.date; }));
-            // y.domain([0, d3.max(data, function(d) { return d.close; })]);
+            x.domain(d3.extent(data, function(d) { return d.date; }));
+            y.domain([0, d3.max(data, function(d) { return d.close; })]);
           // Add the valueline path.
           svg.append("path")
               .attr("class", "line")
@@ -126,56 +118,56 @@
         lineGraph(lineData);
       // });
         //Sets all of the attributs of linex
-            chart.selectAll("line.x")
-             .data(x.ticks(10))
-             //Returns placeholder for missing svg element
-             .enter().append("svg:line")
-             .attr("class", "x")
-             .attr("x1", x)
-             .attr("x2", x)
-             .attr("y1", margin)
-             .attr("y2", height - margin)
-             .attr("stroke", "#ccc");
+          chart.selectAll("line.x")
+           .data(x.ticks(10))
+           //Returns placeholder for missing svg element
+           .enter().append("svg:line")
+           .attr("class", "x")
+           .attr("x1", x)
+           .attr("x2", x)
+           .attr("y1", margin)
+           .attr("y2", height - margin)
+           .attr("stroke", "#ccc");
 
-            chart.selectAll("line.y")
-             .data(y.ticks(10))
-             .enter().append("svg:line")
-             .attr("class", "y")
-             .attr("x1", margin)
-             .attr("x2", width - margin )
-             .attr("y1", y)
-             .attr("y2", y)
-             .attr("stroke", "#ccc");
+          chart.selectAll("line.y")
+           .data(y.ticks(10))
+           .enter().append("svg:line")
+           .attr("class", "y")
+           .attr("x1", margin)
+           .attr("x2", width - margin )
+           .attr("y1", y)
+           .attr("y2", y)
+           .attr("stroke", "#ccc");
 
-            chart.selectAll("text.xrule")
-             .data(x.ticks(10))
-             .enter().append("svg:text")
-             .attr("class", "xrule")
-             .attr("x", x)
-             .attr("y", height - margin)
-             .attr("dy", 20)
-             .attr("text-anchor", "middle")
-             .text(function(d){ var date = new Date(d * 1000);  return (date.getMonth() + 1)+"/"+date.getDate(); });
+          chart.selectAll("text.xrule")
+           .data(x.ticks(10))
+           .enter().append("svg:text")
+           .attr("class", "xrule")
+           .attr("x", x)
+           .attr("y", height - margin)
+           .attr("dy", 20)
+           .attr("text-anchor", "middle")
+           .text(function(d){ var date = new Date(d * 1000);  return (date.getMonth() + 1)+"/"+date.getDate(); });
 
-           chart.selectAll("text.yrule")
-            .data(y.ticks(10))
-            .enter().append("svg:text")
-            .attr("class", "yrule")
-            .attr("x", width - margin)
-            .attr("y", y)
-            .attr("dy", 0)
-            .attr("dx", 20)
-            .attr("text-anchor", "middle")
-            .text(String);
+         chart.selectAll("text.yrule")
+          .data(y.ticks(10))
+          .enter().append("svg:text")
+          .attr("class", "yrule")
+          .attr("x", width - margin)
+          .attr("y", y)
+          .attr("dy", 0)
+          .attr("dx", 20)
+          .attr("text-anchor", "middle")
+          .text(String);
 
-    chart.selectAll("rect")
-      .data(data)
-      .enter().append("svg:rect")
-      .attr("x", function(d) { return x(d.timestamp); })
-            .attr("y", function(d) {return y(max(d.Open, d.Close));})
-      .attr("height", function(d) { return y(min(d.Open, d.Close))-y(max(d.Open, d.Close));})
-      .attr("width", function(d) { return (width - margin)/data.length; })
-            .attr("fill",function(d) { return d.Open > d.Close ? "blue" : "green" ;});
+        chart.selectAll("rect")
+          .data(data)
+          .enter().append("svg:rect")
+          .attr("x", function(d) { return x(d.timestamp); })
+                .attr("y", function(d) {return y(max(d.Open, d.Close));})
+          .attr("height", function(d) { return y(min(d.Open, d.Close))-y(max(d.Open, d.Close));})
+          .attr("width", function(d) { return (width - margin)/data.length; })
+                .attr("fill",function(d) { return d.Open > d.Close ? "red" : "green" ;});
 
           chart.selectAll("line.stem")
             .data(data)
@@ -185,7 +177,7 @@
             .attr("x2", function(d) { return x(d.timestamp) + 0.5 * (width - 2 * margin)/ data.length;})
             .attr("y1", function(d) { return y(d.High);})
             .attr("y2", function(d) { return y(d.Low); })
-            .attr("stroke", function(d){ return d.Open > d.Close ? "yellow" : "blue"; })
+            .attr("stroke", function(d){ return d.Open > d.Close ? "red" : "green"; })
 }
 
 

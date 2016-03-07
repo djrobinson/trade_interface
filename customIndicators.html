@@ -3,41 +3,153 @@
 <html>
 <head>
   <title>Custom Indicator Graph</title>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="http://d3js.org/d3.v2.min.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 </head>
 <body>
   <h1>Testing for Custom Indicators</h1>
-
+  <div id="chart"></div>
   <script>
     var width = 900;
     var height = 500;
+    var margin = 50;
 
-    var end = new Date();
-    var start = new Date(end.getTime() - 1000 * 60 * 60 * 24 * 60);
     var data = [];
 
-    function min(a, b){ return a < b ? a : b ; }
+    d3.json('test_data.json', function(res, err){
+      buildChart(res);
+    })
 
-    function max(a, b){ return a > b ? a : b; }
 
-    var y = d3.scale.linear()
-          .domain([d3.min(data.map(function(x) {return x["Low"];})), d3.max(data.map(function(x){return x["High"];}))])
-          .range([height-margin, margin]);
-        var x = d3.scale.linear()
-          .domain([d3.min(data.map(function(d){return d.timestamp;})), d3.max(data.map(function(d){ return d.timestamp;}))])
-          .range([margin,width-margin]);
+    //This function will create a chart area that will be selectable by the
+    //other functions
+    function buildChart(data){
 
+      var chart = d3.select("#chart")
+            //Creates element named svg
+            .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+            //Adds class to svg with value of chart
+            .attr("class", "chart")
+
+      function min(a, b){ return a < b ? a : b ; }
+
+      function max(a, b){ return a > b ? a : b; }
+
+      var unixTime = function(date){
+        return Date.parse(date);
+      }
+
+      data.forEach(function(d) {
+          d.time = unixTime(d.time);
+          d.price = +d.price;
+      });
+
+      console.log("curr", data);
+
+
+      // var x = x.domain(d3.extent(data, function(d) { return d.time; }));
+      // var y = y.domain([0, d3.max(data, function(d) { return d.price;})]);
+      var y = d3.scale.linear()
+            .domain([d3.min(data.map(function(x) {return x.price;})), d3.max(data.map(function(x){return x.price;}))])
+            .range([height-margin, margin]);
+      var x = d3.scale.linear()
+        .domain([d3.min(data.map(function(d){return d.time;})), d3.max(data.map(function(d){ return d.time;}))])
+        .range([margin,width-margin]);
+
+      var xAxis = d3.svg.axis().scale(x)
+              .orient("bottom").ticks(5);
+
+      var yAxis = d3.svg.axis().scale(y)
+          .orient("left").ticks(5);
+
+
+      var svg = d3.select(".chart")
+      var valueline = d3.svg.line()
+        .x(function(d) { return x(d.time); })
+        .y(function(d) { return y(d.price); });
+        // data.forEach(function(d) {
+        //     d.date = parseDate(d.date);
+        //     d.close = +d.close;
+        // });
+      // Scale the range of the data
+      //This is what is causing the bar vs line to render
+      //TODO investigate why this is occurring
+        // x.domain(d3.extent(data, function(d) { return d.date; }));
+        // y.domain([0, d3.max(data, function(d) { return d.close; })]);
+      // Add the valueline path.
+      svg.append("path")
+          .attr("class", "line")
+          .attr("d", valueline(data));
+
+      //Add the X Axis
+      svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis);
+
+      //Add the Y Axis
+      svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis);
+    }
     //What data type should be pulled in?
     //How will I form it into an array tha can be used by each line type below?
 
 
-    //Function for Line
 
+    //Function for Line
+    function buildLine(data, x, y){
+      var svg = d3.select(".chart")
+      var valueline = d3.svg.line()
+        .x(function(d) { return x(d.date); })
+        .y(function(d) { return y(d.close); });
+      console.log("data is", data);
+        // data.forEach(function(d) {
+        //     d.date = parseDate(d.date);
+        //     d.close = +d.close;
+        // });
+      // Scale the range of the data
+      //This is what is causing the bar vs line to render
+      //TODO investigate why this is occurring
+        // x.domain(d3.extent(data, function(d) { return d.date; }));
+        // y.domain([0, d3.max(data, function(d) { return d.close; })]);
+      // Add the valueline path.
+      svg.append("path")
+          .attr("class", "line")
+          .attr("d", valueline(data));
+
+      //Add the X Axis
+      svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis);
+
+      //Add the Y Axis
+      svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis);
+
+    }
 
     //Function for OHLC
+    function buildOHLC(data){
+
+    }
 
     //Function for Y-Axis plots (mkt profile)
+    function buildMktProfile(data){
+
+    }
 
     //Function for pivots
+    function buildPivots(data){
+
+    }
+
+
   </script>
 
 </body>
