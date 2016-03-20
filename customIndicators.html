@@ -55,9 +55,7 @@
       buildChart(res);
     })
 
-    d3.json('ohlc_data.json', function(res, err){
-      buildOHLC(res);
-    })
+
 
 
     //This function will create a chart area that will be selectable by the
@@ -88,6 +86,7 @@
       x = d3.scale.linear()
             .domain([d3.min(data.map(function(d){return d.time;})), d3.max(data.map(function(d){ return d.time;}))])
             .range([margin,width-margin]);
+      console.log(x);
 
 
       var valueline = d3.svg.line()
@@ -99,6 +98,10 @@
       svg.append("path")
           .attr("class", "line")
           .attr("d", valueline(data));
+
+      d3.json('ohlc_data.json', function(res, err){
+        buildOHLC(res);
+      })
     }
 
     svg.append("g")

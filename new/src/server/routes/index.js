@@ -15,9 +15,9 @@ var app = express();
 var flash=require("connect-flash");
 app.use(flash());
 
-var getTicks = require('../indicators/sma');
+// var getTicks = require('../indicators/sma');
 
-getTicks();
+// getTicks();
 
 //Signup form
 router.get('/', (req, res, next) => {
@@ -49,7 +49,7 @@ router.post('/login', passport.authenticate('local-login', {
 
 router.post('/tick', tick.create);
 
-router.get('/tick', tick.get);
+router.get('/tick/:minDate/:maxDate', tick.get);
 
 router.post('/last', last.create);
 
